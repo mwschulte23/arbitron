@@ -1,0 +1,18 @@
+version: '2.1'
+
+services:
+    redis:
+        image: redis
+        restart: on-failure
+        container_name: redis-container
+        expose:
+          - 6379
+        command: ["--appendonly yes"]
+        volumes:
+          - /c/users/mws001/pycharmprojects/side_proj/pipeline/db:/data
+    script:
+        build: .
+        depends_on:
+            - redis
+        env_file: .env
+        command: python src/api_grabber.py
