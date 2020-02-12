@@ -9,13 +9,13 @@ jobs:
     
     steps:
       - checkout
-      - run
+      - run:
           name: dependencies install
           command: |
               python3 -m venv venv
               . venv/bin/activate
               pip install -r requirements.txt
-      - run
+      - run:
           name: run tests
           command: |
               . venv/bin/activate
