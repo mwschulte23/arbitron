@@ -4,6 +4,7 @@ import pytest
 from src.data_grab import DataGrab
 from src.arb_finder import ArbFinder
 
+
 @pytest.fixture
 def data_grab():
     return DataGrab(os.getenv('API_KEY'), sport='basketball_nba', mkt='h2h')
