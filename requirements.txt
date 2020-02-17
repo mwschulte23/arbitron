@@ -8,5 +8,6 @@ urllib3==1.25.8
 fastapi==0.48.0
 pydantic
 uvicorn
+gunicorn
 enum34
 pytest
