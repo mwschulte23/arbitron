@@ -5,3 +5,4 @@ scratch_notes.txt
 *.json
 *.csv
 tests/.pytest_cache/*
+.idea

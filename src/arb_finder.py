@@ -1,4 +1,5 @@
 import os
+import json
 import redis
 import pandas as pd
 from urllib import parse
@@ -11,10 +12,18 @@ class ArbFinder(DataGrab):
     def __init__(self, sport='basketball_nba', mkt='h2h'):
         super().__init__(os.getenv('API_KEY'), sport, mkt)
         self.redis_url = parse.urlparse(os.getenv('REDIS_URL'))
+        self.configs = self._load_json()
 
 
     def __str__(self):
         return 'find best available odds across bookies'
+
+
+    def _load_json(self):
+        with open('configs/configs.json') as f:
+            file = json.load(f)
+
+        return file
 
 
     def _best_odds_grouper(self, data):
@@ -58,6 +67,8 @@ class ArbFinder(DataGrab):
                                             out_df['side2'].apply(lambda x: x.split(' ')[-1])
         logger.info(f'Found best odds for {out_df.shape[0]} games')
 
+        out_df.loc[out_df['comb_prob'] < self.configs['threshold']]
+
         return out_df
 
 
@@ -75,6 +86,7 @@ class ArbFinder(DataGrab):
                 logger.error(e, exc_info=True)
                 return f'Failed: {e}'
 
-# if __name__ == '__main__':
-#     af = ArbFinder()
-#     af.best_odds()
+if __name__ == '__main__':
+    af = ArbFinder()
+    print(af.best_odds().columns)
+    # af.load_json()

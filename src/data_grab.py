@@ -1,3 +1,4 @@
+import json
 import requests
 import pandas as pd
 import datetime as dt
@@ -13,10 +14,18 @@ class DataGrab:
         self.mkt = mkt
         self.sport= sport
         self.json_data = self.request_odds().json()
+        self.configs = self._load_configs()
 
 
     def __str__(self):
         return 'get, map data from api & store in redis'
+
+
+    def _load_configs(self):
+        with open('configs/configs.json') as f:
+            file = json.load(f)
+
+        return file
 
 
     def _request_retry(self, retries=3, backoff_factor=0.3,
@@ -72,7 +81,11 @@ class DataGrab:
                                    },
                                   index=[0])
                 dfs.append(df)
+
+        df = pd.concat(dfs)
+        out_df = df.loc[df['site'].isin(self.configs['sites'])]
+
         logger.info('JSON data converted to pandas dataframe')
 
-        return pd.concat(dfs)
+        return out_df
 
