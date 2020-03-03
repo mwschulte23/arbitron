@@ -9,21 +9,14 @@ from src.data_grab import DataGrab
 
 
 class ArbFinder(DataGrab):
-    def __init__(self, sport='basketball_nba', mkt='h2h'):
-        super().__init__(os.getenv('API_KEY'), sport, mkt)
+    def __init__(self, configs, sport='basketball_nba', mkt='h2h'):
+        super().__init__(os.getenv('API_KEY'), configs, sport, mkt)
         self.redis_url = parse.urlparse(os.getenv('REDIS_URL'))
-        self.configs = self._load_json()
+        self.configs = configs
 
 
     def __str__(self):
         return 'find best available odds across bookies'
-
-
-    def _load_json(self):
-        with open('configs/configs.json') as f:
-            file = json.load(f)
-
-        return file
 
 
     def _best_odds_grouper(self, data):
@@ -85,8 +78,3 @@ class ArbFinder(DataGrab):
             except Exception as e:
                 logger.error(e, exc_info=True)
                 return f'Failed: {e}'
-
-if __name__ == '__main__':
-    af = ArbFinder()
-    print(af.best_odds().columns)
-    # af.load_json()

@@ -3,15 +3,16 @@ import pytest
 
 from src.data_grab import DataGrab
 from src.arb_finder import ArbFinder
+from test import configs
 
 
 @pytest.fixture
 def data_grab():
-    return DataGrab(os.getenv('API_KEY'), sport='basketball_nba', mkt='h2h')
+    return DataGrab(os.getenv('API_KEY'), configs, sport='basketball_nba', mkt='h2h')
 
 @pytest.fixture
 def arb_find():
-    return ArbFinder()
+    return ArbFinder(configs, sport='basketball_nba', mkt='h2h')
 
 
 def test_data_grab(data_grab):

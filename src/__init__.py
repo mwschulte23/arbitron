@@ -10,6 +10,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+
+
 EMAIL_KEY = os.getenv('EMAIL_KEY')
 SPORT_DICT = {'basketball_nba': 'nba', 'americanfootball_ncaaf': 'ncaaf', 'baseball_mlb': 'mlb',
               'basketball_euroleague': 'eurob', 'basketball_ncaab': 'ncaab', 'soccer_usa_mls': 'mls'}

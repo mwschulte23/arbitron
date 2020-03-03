@@ -8,24 +8,17 @@ from urllib3.util.retry import Retry
 from src import logger
 
 class DataGrab:
-    def __init__(self, api_key, sport='basketball_nba', mkt='h2h'):  # mkt=totals
+    def __init__(self, api_key, configs, sport='basketball_nba', mkt='h2h'):  # mkt=totals
         self.url = 'https://api.the-odds-api.com/v3/odds?sport={}&region=us&mkt={}&apiKey={}'
         self.api_key = api_key
+        self.configs = configs
         self.mkt = mkt
         self.sport= sport
         self.json_data = self.request_odds().json()
-        self.configs = self._load_configs()
 
 
     def __str__(self):
         return 'get, map data from api & store in redis'
-
-
-    def _load_configs(self):
-        with open('configs/configs.json') as f:
-            file = json.load(f)
-
-        return file
 
 
     def _request_retry(self, retries=3, backoff_factor=0.3,
@@ -88,4 +81,3 @@ class DataGrab:
         logger.info('JSON data converted to pandas dataframe')
 
         return out_df
-
