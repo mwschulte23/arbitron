@@ -2,6 +2,7 @@ import json
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+from app import configs
 from src.arb_finder import ArbFinder
 
 
@@ -15,10 +16,7 @@ app = FastAPI()
 
 @app.post('/run')
 async def post_run(sport: str = 'basketball', mkt: str = 'h2h'):
-    with open('configs.json') as f:
-        file = json.load(f)
-
-    af = ArbFinder(file, sport=sport, mkt=mkt)
+    af = ArbFinder(configs, sport=sport, mkt=mkt)
     result = af.redis_loader()
 
     return {'result': result, 'sport': sport, 'mkt': mkt}
