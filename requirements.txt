@@ -5,7 +5,7 @@ pandas==0.25.3
 numpy==1.18.0
 python-dotenv==0.10.3
 urllib3==1.25.8
-fastapi==0.48.0
+fastapi==0.65.2
 pydantic
 uvicorn
 gunicorn
